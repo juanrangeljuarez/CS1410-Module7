@@ -22,14 +22,17 @@ public:
     Counter operator ++() // increment prefix
     {
         ++count;
-
         return Counter(count);
+    }
+    Counter operator ++(int) //increment postfix
+    {
+        return Counter(count++);
     }
 };
 
 // main
 int main() {
-    Counter c1, c2, c3;
+    Counter c1, c2, c3, c4;
     cout << "c1 = " << c1.get_count() << endl;
     cout << "c2 = " << c2.get_count() << endl;
     // TO DO ++c1
@@ -41,6 +44,10 @@ int main() {
     cout << "c2 = " << c2.get_count() << endl;
     // c1 = ++c2
     c3 = ++c1;
+    cout << "c1 = " << c1.get_count() << endl;
     cout << "c3 = " << c3.get_count() << endl;
+    c4 = c1++;
+    cout << "c1 = " << c1.get_count() << endl;
+    cout << "c4 = " << c4.get_count() << endl;
     return 0;
 }

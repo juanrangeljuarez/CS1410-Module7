@@ -29,6 +29,7 @@ public:
         string am_pm = pm ? "p.m." : "a.m.";
         cout << am_pm;
     }
+
 };
 
 class time24
@@ -56,23 +57,49 @@ public:
         cout << minutes << ":";
         if(seconds < 10)
             cout << "0";
-        cout << seconds << ":";
+        cout << seconds;
     }
+    operator time12() const;
 };
 // Prototypes
+time24::operator time12() const
+{
+    int hrs24 = hours;
+    bool pm = (hours < 12) ? false : true;
+    int roundMins = seconds < 30 ? minutes:minutes+1;
+    if(roundMins == 0)
+    {
+        roundMins = 0;
+        ++hrs24;
+        if(hrs24 == 12 || hrs24 == 24)
+            pm = (pm == true)? false: true;
+    }
+    int hrs12 = (hrs24 < 13)? hrs24: hrs24 -12;
+    if(hrs12 == 0)
+    {
+        hrs12 = 12;
+        pm = false;
+    }
+    return time12(pm, hrs12, roundMins);
 
+}
 // Main Program Program
 int main() {
     time24 t1;
-    time24 t2(12,2,40);
+    time24 t2(18,2,40);
     t1.display();
     cout << endl;
     t2.display();
-    time24 t3;
-    time24 t4(false,2,40);
+    cout << endl;
+    time12 t3;
+    time12 t4(false,2,40);
     t3.display();
     cout << endl;
     t4.display();
+    cout << endl;
+    // convert time24
+    time12 t12 = t2;
+    t12.display();
     return 0;
 }
 // Function Definitions
